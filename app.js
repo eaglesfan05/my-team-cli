@@ -1,9 +1,10 @@
 const inquirer = require("inquirer");
-// const Manager = require("Manager");
-// const count = 0
-const title = "";
+// const Manager = require("./lib/manager");
+const count = 0
+let title = "";
 
 function getRole(title){
+   
     inquirer.prompt([
         {
            type: "list" ,
@@ -14,14 +15,17 @@ function getRole(title){
                "Intern"
            ]
         }
-    ])
-    buildTeam();
+    ]).then(res=>{
+        buildTeam(title);
+    console.log("title is: " + title);
+    })
+    
     // console.log(title);
 }getRole(title);
 
 
 function newManager(){
-    count = count++
+   
     inquirer.prompt([
         {
             type: "input",
@@ -38,19 +42,21 @@ function newManager(){
             name: "email",
             message: "Please enter your email."
         }
+      
     ])
+    
     buildTeam();
-}newManager();
+}
 
 
 
 //function that handles which employee object to build//
-function buildTeam (title){
-    if(title === Manager){
+function buildTeam(title){
+    if(title === "Manager"){
         newManager();
-    }else if(title === Intern){
+    }else if(title === "Intern"){
         newIntern();
-    }else if(title === Engineer){
+    }else if(title === "Engineer"){
         newEngineer();
     }
     getRole();
