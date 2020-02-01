@@ -1,5 +1,24 @@
 const inquirer = require("inquirer");
-const count = 0
+// const Manager = require("Manager");
+// const count = 0
+const title = "";
+
+function getRole(title){
+    inquirer.prompt([
+        {
+           type: "list" ,
+           name: "title",
+           choices: [
+               "Manager",
+               "Engineer",
+               "Intern"
+           ]
+        }
+    ])
+    buildTeam();
+    // console.log(title);
+}getRole(title);
+
 
 function newManager(){
     count = count++
@@ -34,4 +53,5 @@ function buildTeam (title){
     }else if(title === Engineer){
         newEngineer();
     }
+    getRole();
 }
