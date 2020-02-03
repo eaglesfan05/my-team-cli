@@ -16,16 +16,17 @@ function getRole(){
            ]
         }
     ]).then(res => {
-        return console.log("title is: " + res.title);
+        console.log("title is: " + res.title);
         title = res.title;
         //is catching manager as title but not passing into function//
-    buildTeam(res.title);
+        buildTeam(res.title);
     }).catch(err=>{
         console.log(err + "try again.")
         process.exit(1);
+        
     })    
     // console.log(title);
-}getRole();
+} getRole();
 
 
 function newManager(){
@@ -42,14 +43,20 @@ function newManager(){
             message: "Please enter your office number."
         },
         {
-            type: "type",
+            type: "input",
             name: "email",
             message: "Please enter your email."
         }
       
-    ])
+    ]).then(res => {
+        console.log(res.name, res.email);
+          getRole();
+    }).catch(err => {
+        console.log(err);
+        process.exit(1);
+    })
     
-    getRole();
+  
 }
 
 function newIntern() {
@@ -102,13 +109,13 @@ function newEngineer(){
 }
 //function that handles which employee object to build//
 function buildTeam(res){
-    
-    if(title == Manager){
+    // console.log(res);
+    if(res == "Manager"){
         newManager();
-    }else if(title === "Intern"){
+    }else if(res === "Intern"){
         newIntern();
-    }else if(title === "Engineer"){
+    }else if(res === "Engineer"){
         newEngineer();
     }
-    getRole();
+    // getRole();
 }
