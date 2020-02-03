@@ -1,9 +1,9 @@
 const inquirer = require("inquirer");
 // const Manager = require("./lib/manager");
 const count = 0
-let title = "";
+title = '';
 
-function getRole(title){
+function getRole(){
    
     inquirer.prompt([
         {
@@ -15,13 +15,22 @@ function getRole(title){
                "Intern"
            ]
         }
-    ]).then(res=>{
-        buildTeam(title);
-    console.log("title is: " + title);
+    ]).then(res => {
+        return console.log("title is: " + res.title);
+        title = res.title;
+        //is catching manager as title but not passing into function//
+        buildTeam(res.title);
+    }).catch(err=>{
+        console.log(err + "try again.")
+        process.exit(1);
     })
     
+    
+    
+    
+    
     // console.log(title);
-}getRole(title);
+}getRole();
 
 
 function newManager(){
@@ -45,14 +54,34 @@ function newManager(){
       
     ])
     
-    buildTeam();
+    getRole();
 }
 
+function newIntern() {
 
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "name",
+            message: " Please Enter your name."
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "Please enter your email."
+        },
+        {
+            type: "input",
+            name: "school",
+            message: "What school did you go to?"
+        }
+    ])
+}
 
 //function that handles which employee object to build//
-function buildTeam(title){
-    if(title === "Manager"){
+function buildTeam(res){
+    
+    if(title == Manager){
         newManager();
     }else if(title === "Intern"){
         newIntern();
