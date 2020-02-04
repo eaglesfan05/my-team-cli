@@ -1,9 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
-// const Manager = require("./lib/manager");
 
-// title = '';
-
+//function to get employee role and trigger correct function//
 function getRole(){
    
     inquirer.prompt([
@@ -20,17 +18,26 @@ function getRole(){
     ]).then(res => {
         console.log("title is: " + res.title);
         title = res.title;
-        //is catching manager as title but not passing into function//
+       
         buildTeam(res.title);
-    }).catch(err=>{
+    }).then(res =>{
+        fs.writeFileSync("team.txt", `Lets Put a team Together`, "utf8", function(err){
+            if(err){
+                console.log(err);
+            }else{
+                console.log("success");
+            }
+        })
+    })
+    .catch(err=>{
         console.log(err + "try again.")
         process.exit(1);
         
     })    
-    // console.log(title);
+   
 } getRole();
 
-
+//get manager info//
 function newManager(){
    
     inquirer.prompt([
@@ -56,8 +63,12 @@ function newManager(){
         }
       
     ]).then(res => {
+      
+        title = "Manager";
+      
         console.log("Name: " + res.name, "\n" + "ID: " + res.id + '\n',   + "Email: " + res.email + "\n", "Office Number: " + res.officeNumber);
-        fs.writeFileSync("team.txt", "Name: " + res.name + '\n', "ID: " + res.id + '\n', + "Email: " + res.email, "\n", "Office Number: " + res.officeNumber, '\n', function(err){
+        //writes manager info to file//
+        fs.appendFile("team.txt", `\n{Title: ${title} \n Name: ${res.name} \n ID: ${res.id} \n Email: ${res.email} \n Office Number:${res.officeNumber}}`, 'utf8', function(err){
            
             if(err){
                 console.log("Did not write");
@@ -100,9 +111,10 @@ function newIntern() {
             message: "What school did you go to?"
         }
     ]).then(res =>{
+        title = "Intern"
         console.log("Name: " + res.name, '\n', "ID: " + res.id, '\n',"Email: " + res.email, "\n", "School: " + res.school);
         // getRole();
-        fs.writeFileSync("team.txt", "Name: " + res.name + '\n' + "Email: " + res.email, "\n", "School: " + res.school, '\n', function(err){
+        fs.appendFile("team.txt", `\n{Title: ${title}Name: ${res.name} \nEmail: ${res.email} \nSchool: ${res.school}}`, function(err){
            
             if(err){
                 console.log("Did not write");
@@ -147,8 +159,11 @@ function newEngineer(){
         }
         
     ]).then(res => {
+        title = "Engineer"
         console.log("Name: " + res.name, "\n" + "ID: " + res.id + '\n',   + "Email: " + res.email + "\n", "Github: " + res.github);
-        fs.writeFileSync("team.txt", "Name: " + res.name + '\n', "ID: " + res.id + '\n', + "Email: " + res.email, "\n", "Github: " + res.github, '\n', function(err){
+
+
+        fs.appendFile("team.txt", `{Title: ${title} Name: ${res.name} \nID: ${res.id} \nEmail: ${res.email} \nGithub:${res.github}}`, 'utf8', function(err){
            
             if(err){
                 console.log("Did not write");
@@ -169,7 +184,8 @@ function newEngineer(){
 //function that handles which employee object to build//
 function buildTeam(res){
     // console.log(res);
-    if(res == "Manager"){
+    if(res === "Manager"){
+
         newManager();
     }else if(res === "Intern"){
         newIntern();
