@@ -1,7 +1,8 @@
 const inquirer = require("inquirer");
+const fs = require("fs");
 // const Manager = require("./lib/manager");
-const count = 0
-title = '';
+
+// title = '';
 
 function getRole(){
    
@@ -9,6 +10,7 @@ function getRole(){
         {
            type: "list" ,
            name: "title",
+           message: "What is your title?",
            choices: [
                "Manager",
                "Engineer",
@@ -39,6 +41,11 @@ function newManager(){
         },
         {
             type: "input",
+            name: "id",
+            message: "Please enter your ID."
+        },
+        {
+            type: "input",
             name: "officeNumber",
             message: "Please enter your office number."
         },
@@ -49,8 +56,18 @@ function newManager(){
         }
       
     ]).then(res => {
-        console.log(res.name, res.email);
-          getRole();
+        console.log("Name: " + res.name, "\n" + "ID: " + res.id + '\n',   + "Email: " + res.email + "\n", "Office Number: " + res.officeNumber);
+        fs.writeFileSync("team.txt", "Name: " + res.name + '\n', "ID: " + res.id + '\n', + "Email: " + res.email, "\n", "Office Number: " + res.officeNumber, '\n', function(err){
+           
+            if(err){
+                console.log("Did not write");
+            }else{
+                console.log("success");
+                
+            }
+        })
+        
+        getRole();
     }).catch(err => {
         console.log(err);
         process.exit(1);
@@ -69,6 +86,11 @@ function newIntern() {
         },
         {
             type: "input",
+            name: "id",
+            message: "Please enter your ID."
+        },
+        {
+            type: "input",
             name: "email",
             message: "Please enter your email."
         },
@@ -78,13 +100,27 @@ function newIntern() {
             message: "What school did you go to?"
         }
     ]).then(res =>{
-        return console.log("Name: " + res.name,'\n',"Email: " + res.email, "\n", "School: " + res.school)
+        console.log("Name: " + res.name, '\n', "ID: " + res.id, '\n',"Email: " + res.email, "\n", "School: " + res.school);
+        // getRole();
+        fs.writeFileSync("team.txt", "Name: " + res.name + '\n' + "Email: " + res.email, "\n", "School: " + res.school, '\n', function(err){
+           
+            if(err){
+                console.log("Did not write");
+            }else{
+                console.log("success");
+                
+            }
+        })
+        getRole();
     }).catch(err =>{
         console.log(err + "try again.")
         process.exit(1);
     })
-    getRole()
+    
 }
+    
+  
+    
 
 
 function newEngineer(){
@@ -96,17 +132,40 @@ function newEngineer(){
         },
         {
             type: "input",
+            name: "id",
+            message: "Please enter your ID."
+        },
+        {
+            type: "input",
             name: "email",
             message: "Please enter your email."
         },
+        {
+            type: "input",
+            name: "github",
+            message: "Please enter your GitHub Username."
+        }
         
-    ]).then(res =>{
-        return console.log("Name: " + res.name,'\n',"Email: " + res.email)
-    }).catch(err =>{
-        console.log(err + "try again.")
+    ]).then(res => {
+        console.log("Name: " + res.name, "\n" + "ID: " + res.id + '\n',   + "Email: " + res.email + "\n", "Github: " + res.github);
+        fs.writeFileSync("team.txt", "Name: " + res.name + '\n', "ID: " + res.id + '\n', + "Email: " + res.email, "\n", "Github: " + res.github, '\n', function(err){
+           
+            if(err){
+                console.log("Did not write");
+            }else{
+                console.log("success");
+                
+            }
+        })
+        
+        getRole();
+    }).catch(err => {
+        console.log(err);
         process.exit(1);
     })
 }
+
+
 //function that handles which employee object to build//
 function buildTeam(res){
     // console.log(res);
